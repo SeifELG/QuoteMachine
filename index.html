@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Quote Machine</title>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+  <!-- Don't use this in production: -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./quotes.js"></script>
+
+  <style>
+    body {
+      background-color: cornflowerblue;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #quote-box {
+      width: 500px;
+      height: auto;
+      margin: auto;
+      background-color: white;
+      border: 1px black solid;
+      padding: 30px 60px;
+      border-radius: 5px;
+    }
+
+    #text {
+      font-size: 30px;
+      padding-bottom: 30px;
+      font-style: italic;
+    }
+
+    #author {
+      text-align: right;
+      font-size: 20px;
+      padding-bottom: 30px;
+    }
+
+    .button {
+      border: 1px black solid;
+      width: 140px;
+      font-size: 20px;
+      cursor: pointer;
+      color: black;
+      font-style: normal;
+      text-decoration: none;
+      text-align: center;
+      padding:8px;
+    }
+
+    .button:hover{
+      background-color: cornsilk;
+    }
+
+    #header {
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 30px;
+      text-align: center;
+      padding: 30px;
+    }
+
+    #button-container{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    //quoteArray is imported from ./quotes.js 
+    //it contains an array of quote objects with "quote" and "author" keys
+    //console.log(quoteArray)
+
+    function QuoteBox() {
+
+      const [currentQuote, setCurrentQuote] = React.useState(() => {
+        return quoteArray[Math.floor(Math.random() * quoteArray.length)]
+      })
+
+      function getNewQuote() {
+        setCurrentQuote(quoteArray[Math.floor(Math.random() * quoteArray.length)])
+      }
+
+      function generateHref() {
+        return `http://www.twitter.com/intent/tweet?text=""${currentQuote.quote}" ${currentQuote.author}"`
+      }
+
+      return (
+        <div id="quote-box">
+          <div id="text">{currentQuote.quote}</div>
+          <div id="author">{currentQuote.author}</div>
+          <div id="button-container">
+            <div id="new-quote" className="button" onClick={getNewQuote}>new quote</div>
+            <a id="tweet-quote" className="button" target="_blank" href={generateHref()}>tweet quote</a>
+          </div>
+        </div>
+      )
+    }
+
+    function App() {
+      return (
+        <>
+          <div id="header">Random Quote Machine</div>
+          <QuoteBox />
+        </>
+      )
+    }
+
+    ReactDOM.render(
+      <App />,
+      document.getElementById('root')
+    );
+
+  </script>
+  <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      Read this section for a production-ready setup with JSX:
+      https://reactjs.org/docs/add-react-to-a-website.html#add-jsx-to-a-project
+
+      In a larger project, you can use an integrated toolchain that includes JSX instead:
+      https://reactjs.org/docs/create-a-new-react-app.html
+
+      You can also use React without JSX, in which case you can remove Babel:
+      https://reactjs.org/docs/react-without-jsx.html
+    -->
+</body>
+
+</html>
